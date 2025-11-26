@@ -152,6 +152,12 @@ app.post('/api/quote', async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-});
+// Export the app for Vercel
+module.exports = app;
+
+// Only listen if run directly (not imported as a module)
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Server running on http://localhost:${PORT}`);
+    });
+}

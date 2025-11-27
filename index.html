@@ -29,6 +29,30 @@
 </head>
 
 <body>
+    <!-- Loading Screen -->
+    <div class="loader-wrapper">
+        <img src="images/logo.png" alt="NX Logo" class="logo" />
+        <div class="loading-text">LOADING</div>
+        <div class="dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            setTimeout(function () {
+                const loader = document.querySelector(".loader-wrapper");
+                if (loader) {
+                    loader.style.opacity = "0";
+                    setTimeout(() => {
+                        loader.style.display = "none";
+                    }, 500); // Wait for fade out transition
+                }
+            }, 600); // 0.6 seconds delay
+        });
+    </script>
 
     <!-- Header -->
     <header class="header">

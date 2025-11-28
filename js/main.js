@@ -140,6 +140,20 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // Allow unchecking radio buttons (for optional fields)
+    let lastChecked = {};
+    document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.addEventListener('click', function () {
+            const name = this.name;
+            if (lastChecked[name] === this) {
+                this.checked = false;
+                lastChecked[name] = null;
+            } else {
+                lastChecked[name] = this;
+            }
+        });
+    });
 });
 
 function initQuoteWizard() {

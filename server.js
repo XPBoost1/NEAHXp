@@ -47,8 +47,11 @@ app.get('/api/debug-env', (req, res) => {
 app.post('/api/contact', async (req, res) => {
     const { fullName, email, phone, preferredContact, services, message } = req.body;
 
+    console.log('Received Contact Request:', req.body); // Debug log
+
     const mailOptions = {
-        from: `"${fullName}" <${email}>`, // Sender address
+        from: process.env.EMAIL_USER, // Sender address (must be authenticated user)
+        replyTo: { name: fullName, address: email }, // Safer object syntax
         to: process.env.EMAIL_USER, // List of receivers
         subject: `New Contact Form Submission from ${fullName}`,
         html: `
@@ -118,8 +121,11 @@ app.post('/api/quote', async (req, res) => {
         name, email, phone, contact_pref, notes
     } = req.body;
 
+    console.log('Received Quote Request:', req.body); // Debug log
+
     const mailOptions = {
-        from: `"${name}" <${email}>`,
+        from: process.env.EMAIL_USER, // Use authenticated sender
+        replyTo: { name: name, address: email }, // Safer object syntax
         to: process.env.EMAIL_USER,
         subject: `New Quote Request from ${companyName}`,
         html: `

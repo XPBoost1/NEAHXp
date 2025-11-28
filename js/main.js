@@ -167,19 +167,10 @@ function initQuoteWizard() {
         progressSteps.forEach((step, i) => {
             if (i <= index) {
                 step.classList.add('active');
-                if (i < index) step.classList.add('completed');
             } else {
                 step.classList.remove('active');
-                step.classList.remove('completed');
             }
         });
-
-        // Update Progress Line
-        const progressLine = document.getElementById('progress-line');
-        if (progressLine) {
-            const percent = (index / (progressSteps.length - 1)) * 100;
-            progressLine.style.width = `${percent}%`;
-        }
 
         // Scroll to top of form
         wizard.scrollIntoView({ behavior: 'smooth', block: 'start' });

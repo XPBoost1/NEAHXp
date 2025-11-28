@@ -47,11 +47,8 @@ app.get('/api/debug-env', (req, res) => {
 app.post('/api/contact', async (req, res) => {
     const { fullName, email, phone, preferredContact, services, message } = req.body;
 
-    console.log('Received Contact Request:', req.body); // Debug log
-
     const mailOptions = {
-        from: process.env.EMAIL_USER, // Sender address (must be authenticated user)
-        replyTo: { name: fullName, address: email }, // Safer object syntax
+        from: `"${fullName}" <${email}>`, // Sender address
         to: process.env.EMAIL_USER, // List of receivers
         subject: `New Contact Form Submission from ${fullName}`,
         html: `
@@ -114,50 +111,43 @@ app.post('/api/subscribe', async (req, res) => {
 // Quote Form Endpoint
 app.post('/api/quote', async (req, res) => {
     const {
-        companyName, industry, companySize, website, description,
-        objective, secondary_goals, audience,
-        timeline, budget, urgency,
-        services, features,
-        name, email, phone, contact_pref, notes
+        companyName, companySize, industry,
+        goals,
+        timeline,
+        budget,
+        services, additional_info,
+        name, email
     } = req.body;
 
-    console.log('Received Quote Request:', req.body); // Debug log
-
     const mailOptions = {
-        from: process.env.EMAIL_USER, // Use authenticated sender
-        replyTo: { name: name, address: email }, // Safer object syntax
+        from: `"${name}" <${email}>`,
         to: process.env.EMAIL_USER,
         subject: `New Quote Request from ${companyName}`,
         html: `
             <h2>New Quote Request</h2>
             
             <h3>Company Information</h3>
-            <p><strong>Company:</strong> ${companyName}</p>
+            <p><strong>Company Name:</strong> ${companyName}</p>
+            <p><strong>Company Size:</strong> ${companySize}</p>
             <p><strong>Industry:</strong> ${industry}</p>
-            <p><strong>Size:</strong> ${companySize}</p>
-            <p><strong>Website:</strong> ${website || 'N/A'}</p>
-            <p><strong>Description:</strong> ${description || 'N/A'}</p>
 
             <h3>Project Goals</h3>
-            <p><strong>Primary Objective:</strong> ${objective}</p>
-            <p><strong>Secondary Goals:</strong> ${Array.isArray(secondary_goals) ? secondary_goals.join(', ') : secondary_goals || 'None'}</p>
-            <p><strong>Target Audience:</strong> ${audience || 'N/A'}</p>
+            <p><strong>Goals:</strong> ${Array.isArray(goals) ? goals.join(', ') : goals || 'None'}</p>
 
-            <h3>Timeline & Budget</h3>
-            <p><strong>Timeline:</strong> ${timeline}</p>
-            <p><strong>Budget:</strong> ${budget}</p>
-            <p><strong>Urgency:</strong> ${urgency}</p>
+            <h3>Timeline</h3>
+            <p><strong>Project Timeline:</strong> ${timeline}</p>
 
-            <h3>Requirements</h3>
+            <h3>Budget</h3>
+            <p><strong>Budget Range:</strong> ${budget}</p>
+
+            <h3>Services & Requirements</h3>
             <p><strong>Services Needed:</strong> ${Array.isArray(services) ? services.join(', ') : services || 'None'}</p>
-            <p><strong>Specific Features:</strong> ${features || 'N/A'}</p>
+            <p><strong>Additional Information:</strong></p>
+            <p>${additional_info || 'N/A'}</p>
 
             <h3>Contact Details</h3>
             <p><strong>Name:</strong> ${name}</p>
             <p><strong>Email:</strong> ${email}</p>
-            <p><strong>Phone:</strong> ${phone || 'N/A'}</p>
-            <p><strong>Preferred Contact:</strong> ${contact_pref}</p>
-            <p><strong>Notes:</strong> ${notes || 'N/A'}</p>
         `
     };
 

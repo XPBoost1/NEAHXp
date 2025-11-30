@@ -1,0 +1,10 @@
+{
+    "version": 2,
+    "name": "neahxp-backend",
+    "rewrites": [
+        {
+            "source": "/api/(.*)",
+            "destination": "/api/index.js"
+        }
+    ]
+}

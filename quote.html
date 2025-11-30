@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request a Quote | NEAHXp</title>
+    <meta name="description"
+        content="Get a custom quote for your AI, web development, or automation project. tailored solutions for your business needs.">
+    <link rel="canonical" href="https://neahxp.com/quote.html">
+    <link rel="icon" type="image/png" href="images/favicon.png">
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/animations.css">
+
+    <style>
+        .wizard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .quote-layout {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4rem;
+            position: relative;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--glass-border);
+            z-index: 0;
+            transform: translateY(-50%);
+        }
+
+        .progress-step {
+            width: 45px;
+            height: 45px;
+            background: var(--bg-dark);
+            border: 2px solid var(--glass-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 1;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .progress-step.active {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .wizard-step {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .wizard-step.active {
+            display: block;
+        }
+
+        /* Premium Form Styles */
+        .glass-form {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(0, 0, 0, 0.4);
+            box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .checkbox-card {
+            cursor: pointer;
+            position: relative;
+        }
+
+        .checkbox-card input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .checkbox-content {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-card input:checked+.checkbox-content {
+            border-color: var(--primary);
+            background: rgba(34, 197, 94, 0.1);
+        }
+
+        .checkbox-content i {
+            color: var(--primary);
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        /* Trust Sidebar Styles */
+        .trust-sidebar {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2rem;
+            position: sticky;
+            top: 100px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .trust-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .trust-item:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .trust-icon {
+            flex-shrink: 0;
+            width: 48px;
+            height: 48px;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .trust-icon i {
+            color: var(--primary);
+            width: 24px;
+            height: 24px;
+        }
+
+        .trust-text h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        .trust-text p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            .quote-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .trust-sidebar {
+                position: relative;
+                top: 0;
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .glass-form {
+                padding: 1.5rem;
+            }
+
+            .progress-bar {
+                margin-bottom: 2rem;
+            }
+
+            .progress-step {
+                width: 35px;
+                height: 35px;
+                font-size: 0.9rem;
+            }
+
+            .trust-sidebar {
+                padding: 1.5rem;
+            }
+
+            .trust-item {
+                margin-bottom: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="images/logo.png" alt="logo" style="width: 111px; height: 51px;">
+            </a>
+            <a href="index.html" class="btn btn-ghost">Exit <i data-lucide="x" style="width: 16px;"></i></a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="section"
+        style="padding-top: 150px; padding-bottom: 4rem; text-align: center; position: relative; overflow: hidden;">
+        <!-- Background Glows -->
+        <div
+            style="position: absolute; top: -20%; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; background: radial-gradient(circle, rgba(34,197,94,0.15) 0%, transparent 70%); filter: blur(80px); z-index: -1;">
+        </div>
+
+        <div class="container">
+            <h1 class="animate-slide-up" style="margin-bottom: 1.5rem;">
+                Get Your <span class="text-gradient">Project Quote</span>
+            </h1>
+            <p class="animate-slide-up delay-100"
+                style="font-size: 1.25rem; color: var(--text-muted); max-width: 700px; margin: 0 auto;">
+                Tell us about your vision. We'll provide a detailed estimate tailored to your specific needs.
+            </p>
+        </div>
+    </section>
+
+    <!-- Wizard Section -->
+    <section class="section" style="padding-top: 0;">
+        <div class="container wizard-container">
+
+            <!-- Two Column Layout -->
+            <div class="quote-layout">
+                <!-- Form -->
+                <form id="quote-wizard" class="glass-form animate-slide-up delay-300">
+
+                    <!-- Progress Bar -->
+                    <div class="progress-bar animate-slide-up delay-200">
+                        <div class="progress-step active">1</div>
+                        <div class="progress-step">2</div>
+                        <div class="progress-step">3</div>
+                        <div class="progress-step">4</div>
+                        <div class="progress-step">5</div>
+                    </div>
+
+                    <!-- Step 1: Company -->
+                    <div class="wizard-step active">
+                        <h2 style="margin-bottom: 0.5rem;">Company</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 2rem;">Tell us about your business</p>
+
+                        <div class="form-group">
+                            <label class="form-label">Company Name *</label>
+                            <input type="text" class="form-input" name="companyName" required
+                                placeholder="Your company name">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Company Size (Optional)</label>
+                            <div class="checkbox-grid" style="grid-template-columns: 1fr;">
+                                <label class="checkbox-card">
+                                    <input type="radio" name="companySize" value="startup">
+                                    <div class="checkbox-content">Startup (1-10 employees)</div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="radio" name="companySize" value="small">
+                                    <div class="checkbox-content">Small Business (11-50 employees)</div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="radio" name="companySize" value="medium">
+                                    <div class="checkbox-content">Medium Business (51-200 employees)</div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="radio" name="companySize" value="enterprise">
+                                    <div class="checkbox-content">Enterprise (200+ employees)</div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Industry *</label>
+                            <select class="form-select" name="industry" required>
+                                <option value="">Select your industry</option>
+                                <option value="technology">Technology</option>
+                                <option value="healthcare">Healthcare</option>
+                                <option value="finance">Finance & Banking</option>
+                                <option value="retail">Retail & E-commerce</option>
+                                <option value="manufacturing">Manufacturing</option>
+                                <option value="education">Education</option>
+                                <option value="real-estate">Real Estate</option>
+                                <option value="hospitality">Hospitality & Tourism</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="btn-group">
+                            <div></div>
+                            <button type="button" class="btn btn-primary btn-next">Next <i data-lucide="arrow-right"
+                                    style="width: 18px;"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Goals -->
+                    <div class="wizard-step">
+                        <h2 style="margin-bottom: 0.5rem;">Goals</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 2rem;">What do you want to achieve?</p>
+
+                        <div class="form-group">
+                            <label class="form-label">Primary Goals (Select all that apply) *</label>
+                            <div class="checkbox-grid" style="grid-template-columns: repeat(2, 1fr);">
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="goals" value="sales">
+                                    <div class="checkbox-content"><i data-lucide="trending-up"></i> Increase online
+                                        sales</div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="goals" value="leads">
+                                    <div class="checkbox-content"><i data-lucide="users"></i> Generate more leads</div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="goals" value="performance">
+                                    <div class="checkbox-content"><i data-lucide="zap"></i> Improve website performance
+                                    </div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="goals" value="automation">
+                                    <div class="checkbox-content"><i data-lucide="cpu"></i> Automate business processes
+                                    </div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="goals" value="ux">
+                                    <div class="checkbox-content"><i data-lucide="heart"></i> Enhance customer
+                                        experience</div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="goals" value="ai">
+                                    <div class="checkbox-content"><i data-lucide="brain"></i> Build AI/ML capabilities
+                                    </div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="goals" value="seo">
+                                    <div class="checkbox-content"><i data-lucide="search"></i> Improve SEO rankings
+                                    </div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="goals" value="other">
+                                    <div class="checkbox-content"><i data-lucide="code"></i> Other
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="form-group" id="other-goal-input" style="display: none; margin-top: 1rem;">
+                                <label class="form-label">Please specify your other goal</label>
+                                <input type="text" class="form-input" name="other_goal"
+                                    placeholder="Describe your specific goal...">
+                            </div>
+                        </div>
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-outline btn-prev"><i data-lucide="arrow-left"
+                                    style="width: 18px;"></i> Previous</button>
+                            <button type="button" class="btn btn-primary btn-next">Next <i data-lucide="arrow-right"
+                                    style="width: 18px;"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Timeline -->
+                    <div class="wizard-step">
+                        <h2 style="margin-bottom: 0.5rem;">Timeline</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 2rem;">When do you need this done?</p>
+
+                        <div class="form-group">
+                            <label class="form-label">Project Timeline *</label>
+                            <div class="checkbox-grid" style="grid-template-columns: 1fr;">
+                                <label class="checkbox-card">
+                                    <input type="radio" name="timeline" value="asap" required>
+                                    <div class="checkbox-content">ASAP (Within 2 weeks)</div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="radio" name="timeline" value="1month">
+                                    <div class="checkbox-content">1 month</div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="radio" name="timeline" value="2-3months">
+                                    <div class="checkbox-content">2-3 months</div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="radio" name="timeline" value="3-6months">
+                                    <div class="checkbox-content">3-6 months</div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="radio" name="timeline" value="6months+">
+                                    <div class="checkbox-content">6+ months</div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="radio" name="timeline" value="flexible">
+                                    <div class="checkbox-content">Flexible</div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-outline btn-prev"><i data-lucide="arrow-left"
+                                    style="width: 18px;"></i> Previous</button>
+                            <button type="button" class="btn btn-primary btn-next">Next <i data-lucide="arrow-right"
+                                    style="width: 18px;"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Budget -->
+                    <div class="wizard-step">
+                        <h2 style="margin-bottom: 0.5rem;">Budget</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 2rem;">What's your investment range?</p>
+
+                        <div class="form-group">
+                            <label class="form-label">Budget Range *</label>
+                            <div class="checkbox-grid" style="grid-template-columns: 1fr;">
+                                <label class="checkbox-card">
+                                    <input type="radio" name="budget" value="10k-25k" required>
+                                    <div class="checkbox-content">₹10,000 - ₹25,000</div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="radio" name="budget" value="25k-50k">
+                                    <div class="checkbox-content">₹25,000 - ₹50,000</div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="radio" name="budget" value="50k-75k">
+                                    <div class="checkbox-content">₹50,000 - ₹75,000</div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="radio" name="budget" value="75k-100k">
+                                    <div class="checkbox-content">₹75,000 - ₹100,000</div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="radio" name="budget" value="100k+">
+                                    <div class="checkbox-content">₹100,000+</div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-outline btn-prev"><i data-lucide="arrow-left"
+                                    style="width: 18px;"></i> Previous</button>
+                            <button type="button" class="btn btn-primary btn-next">Next <i data-lucide="arrow-right"
+                                    style="width: 18px;"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Step 5: Services -->
+                    <div class="wizard-step">
+                        <h2 style="margin-bottom: 0.5rem;">Services</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 2rem;">Which services do you need?</p>
+
+                        <div class="form-group">
+                            <label class="form-label">Services Needed (Select all that apply) *</label>
+                            <div class="checkbox-grid" style="grid-template-columns: repeat(2, 1fr);">
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="services" value="marketing">
+                                    <div class="checkbox-content"><i data-lucide="megaphone"></i> Digital Marketing
+                                    </div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="services" value="software">
+                                    <div class="checkbox-content"><i data-lucide="code"></i> Software Development</div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="services" value="ai-ml">
+                                    <div class="checkbox-content"><i data-lucide="brain"></i> AI/ML Projects & Custom
+                                        Software</div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="services" value="web-design">
+                                    <div class="checkbox-content"><i data-lucide="palette"></i> Customized Web Design
+                                    </div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="services" value="ml-architecture">
+                                    <div class="checkbox-content"><i data-lucide="network"></i> ML Architecture & Model
+                                        Designing</div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="services" value="seo">
+                                    <div class="checkbox-content"><i data-lucide="search"></i> SEO Optimization</div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="services" value="ai-automation">
+                                    <div class="checkbox-content"><i data-lucide="zap"></i> AI Automation Workflows
+                                    </div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="services" value="other">
+                                    <div class="checkbox-content"><i data-lucide="more-horizontal"></i> Other</div>
+                                </label>
+                            </div>
+
+                            <div class="form-group" id="other-service-input" style="display: none; margin-top: 1rem;">
+                                <label class="form-label">Please specify your other service</label>
+                                <input type="text" class="form-input" name="other_service"
+                                    placeholder="Describe the service you need...">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Additional Information</label>
+                            <textarea class="form-textarea" name="additional_info" rows="4"
+                                placeholder="Tell us more about your project requirements, specific features needed, or any questions you have..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Name *</label>
+                            <input type="text" class="form-input" name="name" required placeholder="Your name">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Email *</label>
+                            <input type="email" class="form-input" name="email" required placeholder="your@email.com">
+                        </div>
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-outline btn-prev"><i data-lucide="arrow-left"
+                                    style="width: 18px;"></i> Previous</button>
+                            <button type="submit" class="btn btn-primary">
+                                <i data-lucide="send" style="width: 18px;"></i> Get Quote
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+
+                <!-- Trust Sidebar -->
+                <aside class="trust-sidebar animate-slide-up delay-400">
+                    <div class="trust-item">
+                        <div class="trust-icon">
+                            <i data-lucide="shield-check"></i>
+                        </div>
+                        <div class="trust-text">
+                            <h4>Secure & Confidential</h4>
+                            <p>Your idea is safe with us. We are happy to sign an NDA upon request.</p>
+                        </div>
+                    </div>
+                    <div class="trust-item">
+                        <div class="trust-icon">
+                            <i data-lucide="clock"></i>
+                        </div>
+                        <div class="trust-text">
+                            <h4>Fast Turnaround</h4>
+                            <p>Receive a detailed proposal and estimated timeline within 24 hours.</p>
+                        </div>
+                    </div>
+                    <div class="trust-item">
+                        <div class="trust-icon">
+                            <i data-lucide="award"></i>
+                        </div>
+                        <div class="trust-text">
+                            <h4>Expert Analysis</h4>
+                            <p>Our quotes are reviewed by senior engineers and design leads.</p>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--glass-border);">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="display: flex; margin-left: 10px;">
+                                <div
+                                    style="width: 30px; height: 30px; background: #ddd; border-radius: 50%; border: 2px solid #000;">
+                                </div>
+                                <div
+                                    style="width: 30px; height: 30px; background: #ccc; border-radius: 50%; border: 2px solid #000; margin-left: -10px;">
+                                </div>
+                                <div
+                                    style="width: 30px; height: 30px; background: #bbb; border-radius: 50%; border: 2px solid #000; margin-left: -10px;">
+                                </div>
+                            </div>
+                            <div style="font-size: 0.9rem; color: var(--text-muted);">
+                                Trusted by <strong>50+</strong> businesses
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="index.html" class="logo" style="margin-bottom: 1rem; display: inline-flex;">
+                        <img src="images/logo.png" alt="logo" style="width: 111px; height: 51px;">
+                    </a>
+                    <p>Next-Gen Enhanced AI & Hyper Experience. Transforming businesses through innovative technology.
+                    </p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <nav class="footer-links">
+                        <a href="index.html">Home</a>
+                        <a href="about.html">About Us</a>
+                        <a href="services.html">Services</a>
+                        <a href="portfolio.html">Portfolio</a>
+                        <a href="contact.html">Contact</a>
+                    </nav>
+                </div>
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <nav class="footer-links">
+                        <a href="services/ai-agents.html">AI Agent Service</a>
+                        <a href="services/software-development.html">Software Development</a>
+                        <a href="services/ai-automation.html">AI Automation</a>
+                        <a href="services/cad-designing.html">CAD Designing</a>
+                        <a href="services/web-design.html">Web Design</a>
+                    </nav>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <nav class="footer-links">
+                        <a href="mailto:neahxp@gmail.com"><i data-lucide="mail"
+                                style="width: 16px; display: inline;"></i> neahxp@gmail.com</a>
+                        <a href="tel:+91 8320769351"><i data-lucide="phone" style="width: 16px; display: inline;"></i>
+                            +91
+                            83207 69351 </a>
+                        <a href="tel:+91 9054404521"><i data-lucide="phone" style="width: 16px; display: inline;"></i>
+                            +91
+                            90544 04521 </a>
+                        <span><i data-lucide="map-pin" style="width: 16px; height: 16px; display: inline;"></i>
+                            Ahmedabad,
+                            Gujarat</span>
+                    </nav>
+                    <div class="flex gap-4" style="margin-top: 1.5rem;">
+                        <a href="#" style="color: var(--text-muted);"><i data-lucide="instagram"></i></a>
+                        <a href="#" style="color: var(--text-muted);"><i data-lucide="youtube"></i></a>
+                        <a href="#" style="color: var(--text-muted);"><i data-lucide="facebook"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span class="current-year">2025</span> All rights reserved By NEAHXp.</p>
+                <div class="flex gap-4">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>

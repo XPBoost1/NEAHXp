@@ -803,6 +803,10 @@ body.marketing-theme .footer-links a:hover {
     display: none;
   }
 
+  .header .btn-primary {
+    display: none;
+  }
+
   .mobile-menu-btn {
     display: block;
   }

@@ -3,8 +3,6 @@ const express = require('express');
 const nodemailer = require('nodemailer');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const path = require('path');
-const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -28,6 +26,8 @@ app.use((req, res, next) => {
     }
 
     // Try to serve the .html file
+    const path = require('path');
+    const fs = require('fs');
     const htmlPath = path.join(__dirname, req.path + '.html');
 
     if (fs.existsSync(htmlPath)) {
@@ -55,31 +55,20 @@ transporter.verify((error, success) => {
     }
 });
 
-// Define API Routes
-const apiRouter = express.Router();
-
-// Debug Endpoint
-apiRouter.get('/debug-env', (req, res) => {
+// Debug Endpoint (Temporary)
+app.get('/api/debug-env', (req, res) => {
     res.json({
         message: 'Environment Variable Debug',
-        status: 'API Reachable',
-        path: req.path,
-        url: req.url,
         emailUserConfigured: !!process.env.EMAIL_USER,
-        emailPassConfigured: !!process.env.EMAIL_PASS
+        emailPassConfigured: !!process.env.EMAIL_PASS,
+        emailUserLength: process.env.EMAIL_USER ? process.env.EMAIL_USER.length : 0,
+        emailPassLength: process.env.EMAIL_PASS ? process.env.EMAIL_PASS.length : 0
     });
 });
 
-// Health Check Endpoint
-apiRouter.get('/health', (req, res) => {
-    res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() });
-});
-
-// Contact Form Handler
-const handleContact = async (req, res) => {
+// Contact Form Endpoint
+app.post('/api/contact', async (req, res) => {
     const { fullName, email, message } = req.body;
-
-    console.log('Contact form submission received:', { fullName, email });
 
     // Validation
     if (!fullName || !email || !message) {
@@ -185,10 +174,10 @@ const handleContact = async (req, res) => {
             message: 'Failed to send message. Please try again or contact us directly at neahxp@gmail.com'
         });
     }
-};
+});
 
-// Newsletter Subscription Handler
-const handleSubscribe = async (req, res) => {
+// Newsletter Subscription Endpoint
+app.post('/api/subscribe', async (req, res) => {
     const { email } = req.body;
 
     const mailOptions = {
@@ -221,10 +210,10 @@ const handleSubscribe = async (req, res) => {
         console.error('Error subscribing:', error);
         res.status(500).json({ success: false, message: 'Failed to subscribe.' });
     }
-};
+});
 
-// Quote Form Handler
-const handleQuote = async (req, res) => {
+// Quote Form Endpoint
+app.post('/api/quote', async (req, res) => {
     const {
         companyName, companySize, industry,
         goals, other_goal,
@@ -370,7 +359,7 @@ const handleQuote = async (req, res) => {
                         <!-- Footer -->
                         <div class="footer">
                             <p class="footer-time">📅 Received: ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', dateStyle: 'full', timeStyle: 'short' })}</p>
-                            <p>This message was sent via the NEAHXp quote form</p>
+                            <p style="margin-top: 10px;">This quote request was submitted via the NEAHXp quote form</p>
                             <p style="margin-top: 5px; font-size: 12px;">⚡ Respond within 24 hours for best conversion rates</p>
                         </div>
                     </div>
@@ -387,26 +376,7 @@ const handleQuote = async (req, res) => {
         console.error('Error sending quote email:', error);
         res.status(500).json({ success: false, message: error.message });
     }
-};
-
-// Mount handlers
-apiRouter.post('/contact', handleContact);
-apiRouter.post('/subscribe', handleSubscribe);
-apiRouter.post('/quote', handleQuote);
-
-// 404 Handler for API Routes (Must be last)
-apiRouter.use((req, res) => {
-    res.status(404).json({
-        success: false,
-        message: 'API Endpoint Not Found',
-        path: req.path
-    });
 });
-
-// Mount the API Router
-// Note: We mount to both paths to handle Vercel's potentially variable routing behavior
-app.use('/api', apiRouter);
-app.use('/', apiRouter);
 
 // Export the app for serverless deployments (Vercel, etc.)
 module.exports = app;

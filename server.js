@@ -59,11 +59,17 @@ transporter.verify((error, success) => {
 app.get('/api/debug-env', (req, res) => {
     res.json({
         message: 'Environment Variable Debug',
+        status: 'API Reachable',
+        path: req.path,
+        url: req.url,
         emailUserConfigured: !!process.env.EMAIL_USER,
-        emailPassConfigured: !!process.env.EMAIL_PASS,
-        emailUserLength: process.env.EMAIL_USER ? process.env.EMAIL_USER.length : 0,
-        emailPassLength: process.env.EMAIL_PASS ? process.env.EMAIL_PASS.length : 0
+        emailPassConfigured: !!process.env.EMAIL_PASS
     });
+});
+
+// Health Check Endpoint
+app.get('/api/health', (req, res) => {
+    res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
 // Contact Form Endpoint

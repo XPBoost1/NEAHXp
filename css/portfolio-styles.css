@@ -352,3 +352,330 @@
         font-size: 2rem;
     }
 }
+
+/* =====================================================
+   ENHANCED MODAL: Case Studies, Benefits & Testimonials
+   ===================================================== */
+
+/* Modal Container Enhancement */
+.modal-container {
+    max-width: 1000px;
+    max-height: 95vh;
+}
+
+.modal-content {
+    grid-template-columns: 45% 55%;
+}
+
+.modal-details {
+    padding: 2.5rem;
+    overflow-y: auto;
+    max-height: 90vh;
+}
+
+/* Section Styling */
+.modal-section {
+    margin-bottom: 1.75rem;
+    padding-bottom: 1.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.modal-section:last-of-type {
+    border-bottom: none;
+    margin-bottom: 1.5rem;
+}
+
+.modal-section-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--primary);
+    margin-bottom: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.modal-section-title i {
+    width: 16px;
+    height: 16px;
+    opacity: 0.8;
+}
+
+.modal-section-content {
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+
+/* Benefits Grid */
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.benefit-item {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.08) 0%, rgba(34, 197, 94, 0.02) 100%);
+    border: 1px solid rgba(34, 197, 94, 0.15);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.benefit-item:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary);
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.12) 0%, rgba(34, 197, 94, 0.04) 100%);
+}
+
+.benefit-icon {
+    background: var(--primary);
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.benefit-icon i {
+    width: 14px;
+    height: 14px;
+}
+
+.benefit-text {
+    font-size: 0.88rem;
+    color: white;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+/* Testimonial Card */
+.testimonial-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.testimonial-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--primary) 0%, rgba(34, 197, 94, 0.3) 100%);
+}
+
+.quote-icon {
+    color: var(--primary);
+    opacity: 0.6;
+    margin-bottom: 0.75rem;
+}
+
+.quote-icon i {
+    width: 24px;
+    height: 24px;
+}
+
+.testimonial-quote {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.9);
+    font-style: italic;
+    margin-bottom: 1.25rem;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.author-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary) 0%, #16a34a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+    color: white;
+}
+
+.author-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.author-name {
+    font-weight: 600;
+    color: white;
+    font-size: 0.9rem;
+}
+
+.author-title {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* Star Rating */
+.star-rating {
+    display: flex;
+    gap: 0.25rem;
+    margin-bottom: 0.75rem;
+}
+
+.star-rating i,
+.star-rating svg {
+    width: 18px;
+    height: 18px;
+    color: #fbbf24;
+    fill: #fbbf24;
+    stroke: #fbbf24;
+}
+
+/* Modal Image Enhancement */
+.modal-image {
+    background: linear-gradient(135deg, #0a0a0f 0%, #111118 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 350px;
+    border-right: 1px solid var(--glass-border);
+    position: relative;
+    overflow: hidden;
+}
+
+.modal-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.modal-image::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(to top, rgba(10, 10, 15, 0.8), transparent);
+    pointer-events: none;
+}
+
+/* Enhanced Modal Meta */
+.modal-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+    padding-bottom: 1.75rem;
+}
+
+.meta-item {
+    text-align: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.meta-item h4 {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+}
+
+/* Enhanced Tags */
+.modal-tags .tag {
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.2);
+    color: var(--primary);
+    font-weight: 500;
+}
+
+/* CTA Button Enhancement */
+.modal-cta-btn {
+    background: linear-gradient(135deg, var(--primary) 0%, #16a34a 100%);
+    border: none;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    text-decoration: none;
+}
+
+.modal-cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px -5px rgba(34, 197, 94, 0.4);
+}
+
+.modal-cta-btn i {
+    width: 18px;
+    height: 18px;
+}
+
+/* Responsive for Enhanced Modal */
+@media (max-width: 1024px) {
+    .modal-content {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-details {
+        max-height: none;
+    }
+
+    .benefits-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-meta {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .modal-meta {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .meta-item {
+        padding: 0.75rem;
+    }
+
+    .modal-details {
+        padding: 1.5rem;
+    }
+
+    .testimonial-card {
+        padding: 1.25rem;
+    }
+
+    .testimonial-quote {
+        font-size: 0.95rem;
+    }
+}

@@ -98,6 +98,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // Testimonials Infinite Scroll - Clone cards for seamless loop
+    const testimonialsTrack = document.getElementById('testimonials-track');
+    if (testimonialsTrack) {
+        const testimonialCards = testimonialsTrack.querySelectorAll('.testimonial-card-home');
+        // Clone all cards and append for infinite scroll effect
+        testimonialCards.forEach(card => {
+            const clone = card.cloneNode(true);
+            testimonialsTrack.appendChild(clone);
+        });
+    }
 });
 
 function initQuoteWizard() {

@@ -38,12 +38,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // Modal Elements to Update
     const modalTitle = document.getElementById('modal-title');
     const modalCategory = document.getElementById('modal-category');
-    const modalDesc = document.getElementById('modal-desc');
     const modalClient = document.getElementById('modal-client');
     const modalDate = document.getElementById('modal-date');
     const modalRole = document.getElementById('modal-role');
     const modalIcon = document.getElementById('modal-icon');
     const modalTags = document.getElementById('modal-tags');
+
+    // New Case Study Elements
+    const modalChallenge = document.getElementById('modal-challenge');
+    const modalSolution = document.getElementById('modal-solution');
+    const modalBenefits = document.getElementById('modal-benefits');
+    const modalReview = document.getElementById('modal-review');
+    const modalReviewer = document.getElementById('modal-reviewer');
+    const modalReviewerTitle = document.getElementById('modal-reviewer-title');
+    const modalReviewerAvatar = document.getElementById('modal-reviewer-avatar');
+
+    // Benefit icons mapping
+    const benefitIcons = ['check-circle', 'trending-up', 'zap', 'shield'];
 
     // Open Modal
     viewButtons.forEach(btn => {
@@ -55,23 +66,26 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = {
                 title: card.dataset.title,
                 category: card.dataset.categoryDisplay,
-                desc: card.dataset.desc,
                 client: card.dataset.client,
                 date: card.dataset.date,
                 role: card.dataset.role,
                 icon: card.dataset.icon,
-                tags: card.dataset.tags.split(',')
+                tags: card.dataset.tags.split(','),
+                challenge: card.dataset.challenge || 'Challenge details coming soon.',
+                solution: card.dataset.solution || 'Solution details coming soon.',
+                benefits: card.dataset.benefits ? card.dataset.benefits.split('|') : ['Benefit 1', 'Benefit 2', 'Benefit 3', 'Benefit 4'],
+                review: card.dataset.review || 'Client review coming soon.',
+                reviewer: card.dataset.reviewer || 'Client Name',
+                reviewerTitle: card.dataset.reviewerTitle || 'Position'
             };
 
-            // Populate Modal
+            // Populate Modal - Basic Info
             modalTitle.textContent = data.title;
             modalCategory.textContent = data.category;
-            modalDesc.textContent = data.desc;
             modalClient.textContent = data.client;
             modalDate.textContent = data.date;
             modalRole.textContent = data.role;
 
-            // Update Icon
             // Update Icon or Image
             if (data.icon.includes('/') || data.icon.startsWith('http')) {
                 modalIcon.innerHTML = `<img src="${data.icon}" alt="${data.title}" style="width: 100%; height: 100%; object-fit: cover;">`;
@@ -82,6 +96,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Update Tags
             modalTags.innerHTML = data.tags.map(tag => `<span class="tag">${tag.trim()}</span>`).join('');
+
+            // Populate Case Study Sections
+            modalChallenge.textContent = data.challenge;
+            modalSolution.textContent = data.solution;
+
+            // Populate Benefits
+            modalBenefits.innerHTML = data.benefits.map((benefit, index) => `
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i data-lucide="${benefitIcons[index % benefitIcons.length]}"></i>
+                    </div>
+                    <span class="benefit-text">${benefit.trim()}</span>
+                </div>
+            `).join('');
+
+            // Populate Testimonial
+            modalReview.textContent = `"${data.review}"`;
+            modalReviewer.textContent = data.reviewer;
+            modalReviewerTitle.textContent = data.reviewerTitle;
+
+            // Set avatar initial
+            if (data.reviewer) {
+                modalReviewerAvatar.textContent = data.reviewer.charAt(0).toUpperCase();
+            }
+
+            // Reinitialize Lucide icons for new elements
+            lucide.createIcons();
 
             // Show Modal
             modalBackdrop.classList.add('active');
@@ -110,3 +151,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
